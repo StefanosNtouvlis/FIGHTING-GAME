@@ -31,6 +31,7 @@ class Sprite{
         }
         this.color = color;
         this.isAttacking
+        this.health = 100
     }
 
     draw(){
@@ -84,8 +85,8 @@ const player = new Sprite({
 
 const enemy = new Sprite({
     position:{
-    x:400, 
-    y:100
+    x:974, 
+    y:0
     },
     velocity:{
         x:0,
@@ -157,6 +158,8 @@ function animate(){
     })&& player.isAttacking
         ){
         player.isAttacking = false  
+        enemy.health -=20
+        document.querySelector('#enemyHealth').style.width = enemy.health + '%'
         //i guess that works to shut the 100ms that our sword 
         //is out for working as a continuous attack
         console.log('attaaack')
@@ -167,7 +170,8 @@ function animate(){
     })&& enemy.isAttacking
         ){
         enemy.isAttacking = false  
-        console.log('enemy att')
+        player.health -=20
+        document.querySelector('#playerHealth').style.width = player.health + '%'
     }
 }
 
