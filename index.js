@@ -126,8 +126,34 @@ const keys = {
     )
 }
 
+function determineWinner({ player, enemy, timerId }) {
+    clearTimeout(timerId)
+    document.querySelector('#displayText').style.display = 'flex'
+    if (player.health === enemy.health) {
+      document.querySelector('#displayText').innerHTML = 'Tie'
+    } else if (player.health > enemy.health) {
+      document.querySelector('#displayText').innerHTML = 'Player 1 Wins'
+    } else if (player.health < enemy.health) {
+      document.querySelector('#displayText').innerHTML = 'Player 2 Wins'
+    }
+  }
+
+let timer = 61
+let timerId
+function decreaseTimer(){
+    if(timer > 0){
+    timerId = setTimeout(decreaseTimer, 1000) //?way of recursion
+        timer--
+        document.querySelector('#timer').innerHTML = timer
+    }
+    if(timer == 0){
+    determineWinner({player , enemy, timerId})
+}
+}
+decreaseTimer()
+
 function animate(){
-    window.requestAnimationFrame(animate)
+    window.requestAnimationFrame(animate) //?way of recursion
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height)
     player.update();
@@ -162,7 +188,6 @@ function animate(){
         document.querySelector('#enemyHealth').style.width = enemy.health + '%'
         //i guess that works to shut the 100ms that our sword 
         //is out for working as a continuous attack
-        console.log('attaaack')
     }
     if( rectangularCollision({
         rectangle1:enemy,
@@ -173,6 +198,19 @@ function animate(){
         player.health -=20
         document.querySelector('#playerHealth').style.width = player.health + '%'
     }
+    //end game if health becomes 0
+    if(enemy.health <= 0 || player.health <= 0){
+        determineWinner({player, enemy, timerId})
+    }
+    /* immobilizes the players and "stops" their attacks
+    if(timer === 0 || player.health === 0 || enemy.health === 0){
+        player.position.x = 0
+        enemy.position.x = 974
+        player.position.y = 426
+        enemy.position.y = 426
+        player.attackBox.width = 0
+        enemy.attackBox.width = 0
+    }*/
 }
 
 animate();
