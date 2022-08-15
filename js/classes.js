@@ -1,18 +1,47 @@
 class Sprite{
-    constructor({position, imageSrc}){
+    constructor({position, imageSrc, scale = 1, framesMax = 1}){
         this.position = position
         this.width = 50;
         this.height = 150
         this.image = new Image()
         this.image.src = imageSrc
+        this.scale = scale
+        this.framesMax = framesMax
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = 5
     }
 
     draw(){
-        c.drawImage(this.image, this.position.x, this.position.y)
+        c.drawImage(
+                    this.image,
+                /*from here to there its the image crop the division is being made by the 
+                amount of frames our image has (the background "is not affected" because 
+                we are technically not changing anything since we work with variables 
+                e.g framesMax)*/  
+                    this.framesCurrent * (this.image.width / this.framesMax),
+                    0,
+                    this.image.width / this.framesMax,
+                    this.image.height,
+                /**/  
+                    this.position.x,
+                    this.position.y, 
+                    (this.image.width / this.framesMax) * this.scale, 
+                    this.image.height * this.scale
+                )
     }
 
     update(){
         this.draw()
+        this.framesElapsed++
+        if(this.framesElapsed % this.framesHold === 0){
+            if(this.framesCurrent< this.framesMax - 1){
+            this.framesCurrent++
+            }
+            else{
+            this.framesCurrent = 0
+            }
+        }
     }
 }
 class Fighter{
