@@ -91,6 +91,7 @@ class Fighter{
         this.velocity.y +=gravity;
         }
     }
+    
     attack(){
         this.isAttacking = true
         setTimeout(() => {
