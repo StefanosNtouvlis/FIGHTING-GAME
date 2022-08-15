@@ -73,13 +73,21 @@ const player = new Fighter({
             imageSrc: 'img/Martial Hero/Sprites/Attack1.png',
             framesMax : 6,
         }
-    }
+    },
+    attackBox: {
+        offset: {
+          x: 100,
+          y: 50
+        },
+        width: 160,
+        height: 50
+      }
 })
 
 const enemy = new Fighter({
     position:{
-    x:974, 
-    y:0
+    x:400, //974 
+    y:100
     },
     velocity:{
         x:0,
@@ -116,8 +124,17 @@ const enemy = new Fighter({
         attack1:{
             imageSrc: 'img/Martial Hero 2/Sprites/Attack1.png',
             framesMax : 4,
-        }
-    }
+        },
+    },
+    attackBox: {
+        offset: {
+            x: -170,
+            y: 50
+        },
+        width: 170,
+        height: 50
+          }
+    
 })
 
 const keys = {
@@ -184,7 +201,7 @@ function animate(){
     if( rectangularCollision({
         rectangle1:player,
         rectangle2:enemy
-    })&& player.isAttacking
+    })&& player.isAttacking && player.framesCurrent === 4
         ){
         player.isAttacking = false  
         enemy.health -=20
@@ -192,15 +209,26 @@ function animate(){
         //i guess that works to shut the 100ms that our "sword" 
         //is out for working as a continuous attack
     }
+
+    //if player misses attack
+    if(player.isAttacking && player.framesCurrent ===4)
+        player.isAttacking = false
+
     if( rectangularCollision({
         rectangle1:enemy,
         rectangle2:player
-    })&& enemy.isAttacking
+    })&& enemy.isAttacking  && enemy.framesCurrent === 2
         ){
         enemy.isAttacking = false  
         player.health -=20
         document.querySelector('#playerHealth').style.width = player.health + '%'
     }
+
+        //if enemy misses attack
+        if(enemy.isAttacking && enemy.framesCurrent ===2)
+        enemy.isAttacking = false
+
+
     //end game if health becomes 0
     if(enemy.health <= 0 || player.health <= 0){
         determineWinner({player, enemy, timerId})
