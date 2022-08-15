@@ -121,7 +121,8 @@ class Fighter extends Sprite{
         this.position.y += this.velocity.y;
         this.position.x += this.velocity.x;
 
-        //gravity function
+        //gravity function/ gravity is initially added to make the players fall completely down
+        //also makes the fall time smoother
         if(this.position.y + this.height + this.velocity.y >= (canvas.height -96)){
             //rly difficult explanation for this line's functionality(expl 2.55video)
             this.velocity.y = 0;
