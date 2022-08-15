@@ -133,7 +133,7 @@ class Fighter extends Sprite{
     }
 
     attack(){
-        player.switchSprite('attack1')
+        this.switchSprite('attack1')
         this.isAttacking = true
         setTimeout(() => {
             this.isAttacking = false
