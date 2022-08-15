@@ -56,7 +56,8 @@ class Fighter extends Sprite{
         imageSrc, 
         scale = 1, 
         framesMax = 1,
-        offset = {x:0, y:0}
+        offset = {x:0, y:0},
+        sprites
     })
     {   super({
         position,
@@ -89,7 +90,13 @@ class Fighter extends Sprite{
         this.framesCurrent = 0 //? here
         this.framesElapsed = 0
         this.framesHold = 5
-    }
+        this.sprites = sprites
+
+        for (const sprite in this.sprites) {
+            sprites[sprite].image = new Image()
+            sprites[sprite].image.src = sprites[sprite].imageSrc
+          }
+        }
 
     //*rectangle type fighters
     // draw(){
