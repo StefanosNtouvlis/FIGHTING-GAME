@@ -175,6 +175,8 @@ function animate(){
     c.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
     shop.update()
+    c.fillStyle = 'rgba(255,255,255,0.15)'
+    c.fillRect(0,0, canvas.width, canvas.height)
     player.update();
     enemy.update();
 
@@ -216,13 +218,15 @@ function animate(){
     if( rectangularCollision({
         rectangle1:player,
         rectangle2:enemy
-    })&& player.isAttacking && player.framesCurrent === 4
+    })&& player.isAttacking && player.framesCurrent === 4        
+    //i guess that works to shut the 100ms that our "sword" 
+    //is out for working as a continuous attack
         ){
         enemy.takeHit()    
         player.isAttacking = false  
-        document.querySelector('#enemyHealth').style.width = enemy.health + '%'
-        //i guess that works to shut the 100ms that our "sword" 
-        //is out for working as a continuous attack
+        gsap.to('#enemyHealth', {
+            width:enemy.health + '%'
+        })
     }
 
     //if player misses attack
@@ -237,8 +241,9 @@ function animate(){
         ){
         player.takeHit()    
         enemy.isAttacking = false
-        document.querySelector('#playerHealth').style.width = player.health + '%'
-    }
+        gsap.to('#playerHealth', {
+            width:player.health + '%'
+        })    }
 
         //if enemy misses attack
         if(enemy.isAttacking && enemy.framesCurrent ===2)
@@ -255,6 +260,8 @@ animate();
 
 window.addEventListener('keydown', (event) => {
     if (!player.dead) {
+        if(timer===0)
+        return
       switch (event.key) {
         case 'd':
           keys.d.pressed = true
@@ -274,6 +281,8 @@ window.addEventListener('keydown', (event) => {
     }
   
     if (!enemy.dead) {
+        if(timer===0)
+        return
       switch (event.key) {
         case 'ArrowRight':
           keys.ArrowRight.pressed = true
