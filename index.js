@@ -72,7 +72,11 @@ const player = new Fighter({
         attack1:{
             imageSrc: 'img/Martial Hero/Sprites/Attack1.png',
             framesMax : 6,
-        }
+        },
+        takeHit:{
+            imageSrc: 'img/Martial Hero/Sprites/Take hit - white silhouette.png',
+            framesMax : 4,
+          }
     },
     attackBox: {
         offset: {
@@ -86,8 +90,8 @@ const player = new Fighter({
 
 const enemy = new Fighter({
     position:{
-    x:400, //974 
-    y:100
+    x:974, //974 
+    y:0
     },
     velocity:{
         x:0,
@@ -125,6 +129,10 @@ const enemy = new Fighter({
             imageSrc: 'img/Martial Hero 2/Sprites/Attack1.png',
             framesMax : 4,
         },
+        takeHit:{
+            imageSrc: 'img/Martial Hero 2/Sprites/Take hit.png',
+            framesMax : 3,
+          }
     },
     attackBox: {
         offset: {
@@ -134,7 +142,6 @@ const enemy = new Fighter({
         width: 170,
         height: 50
           }
-    
 })
 
 const keys = {
@@ -197,14 +204,14 @@ function animate(){
         enemy.switchSprite('fall')
 
 
-    //detect for collision
+    //detect for collision where enemy is hit
     if( rectangularCollision({
         rectangle1:player,
         rectangle2:enemy
     })&& player.isAttacking && player.framesCurrent === 4
         ){
+        enemy.takeHit()    
         player.isAttacking = false  
-        enemy.health -=20
         document.querySelector('#enemyHealth').style.width = enemy.health + '%'
         //i guess that works to shut the 100ms that our "sword" 
         //is out for working as a continuous attack
@@ -214,13 +221,14 @@ function animate(){
     if(player.isAttacking && player.framesCurrent ===4)
         player.isAttacking = false
 
+     //detect for collision where player is hit   
     if( rectangularCollision({
         rectangle1:enemy,
         rectangle2:player
     })&& enemy.isAttacking  && enemy.framesCurrent === 2
         ){
-        enemy.isAttacking = false  
-        player.health -=20
+        player.takeHit()    
+        enemy.isAttacking = false
         document.querySelector('#playerHealth').style.width = player.health + '%'
     }
 
