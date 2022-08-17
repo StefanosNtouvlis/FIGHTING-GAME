@@ -3,6 +3,36 @@
 //? add the width to get to the right point
 //? navigationwise coordinates get larger while going to the bottom and right of the canvas
 
+var sfx = {
+  attack2: new Howl({
+    src : ['./sfx/sword1.wav']
+  }),
+  attack1: new Howl({
+    src : ['./sfx/sword2.wav']
+  }),
+  death1: new Howl({
+    src : ['./sfx/death1.wav']
+  }),
+  jump: new Howl({
+    src : ['./sfx/jump.wav']
+  }),
+  jump2: new Howl({
+    src : ['./sfx/jump2.mp3']
+  }),
+  takeHit: new Howl({
+    src : ['./sfx/takeHit.mp3']
+  }),
+  run: new Howl({
+    src : ['./sfx/run.mp3']
+  }),
+  run2: new Howl({
+    src : ['./sfx/run2.mp3']
+  }),
+  /*win2: new Howl({
+    src : ['./sfx/win2.mp3'],
+    loop : false
+  }),*/
+}
 
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
@@ -170,7 +200,7 @@ const keys = {
 decreaseTimer()
 
 function animate(){
-    window.requestAnimationFrame(animate) //?way of recursion
+    id = window.requestAnimationFrame(animate) //?way of recursion
     c.fillStyle = 'black';
     c.fillRect(0, 0, canvas.width, canvas.height)
     background.update()
@@ -249,14 +279,18 @@ function animate(){
         if(enemy.isAttacking && enemy.framesCurrent ===2)
         enemy.isAttacking = false
 
-
     //end game if health becomes 0
     if(enemy.health <= 0 || player.health <= 0){
         determineWinner({player, enemy, timerId})
     }
-}
 
+    /*if(document.querySelector('#displayText').innerHTML === 'Player 2 Wins'
+){window.cancelAnimationFrame(id);
+  sfx.win2.play()
+}*/
+}
 animate();
+
 
 window.addEventListener('keydown', (event) => {
     if (!player.dead) {
@@ -264,17 +298,21 @@ window.addEventListener('keydown', (event) => {
         return
       switch (event.key) {
         case 'd':
+          sfx.run2.play()
           keys.d.pressed = true
           player.lastKey = 'd'
           break
         case 'a':
+          sfx.run2.play()
           keys.a.pressed = true
           player.lastKey = 'a'
           break
         case 'w':
+          sfx.jump.play()
           player.velocity.y = -20
           break
         case 's':
+          sfx.attack1.play()
           player.attack()
           break
       }
@@ -285,17 +323,21 @@ window.addEventListener('keydown', (event) => {
         return
       switch (event.key) {
         case 'ArrowRight':
+          sfx.run.play()
           keys.ArrowRight.pressed = true
           enemy.lastKey = 'ArrowRight'
           break
         case 'ArrowLeft':
+          sfx.run.play()
           keys.ArrowLeft.pressed = true
           enemy.lastKey = 'ArrowLeft'
           break
         case 'ArrowUp':
+          sfx.jump2.play()
           enemy.velocity.y = -20
           break
         case 'ArrowDown':
+          sfx.attack2.play()
           enemy.attack()
   
           break

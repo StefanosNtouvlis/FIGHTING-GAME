@@ -148,14 +148,12 @@ class Fighter extends Sprite{
     }
 
   takeHit() {
-    this.health -= 20
+    this.health -= 10
 
     if (this.health <= 0) {
       this.switchSprite('death')
     } else this.switchSprite('takeHit')
   }
-
-
 
   switchSprite(sprite) {
     if (this.image === this.sprites.death.image) {
@@ -191,7 +189,7 @@ class Fighter extends Sprite{
           this.image = this.sprites.run.image
           this.framesMax = this.sprites.run.framesMax
           this.framesCurrent = 0
-        }
+                }
         break
       case 'jump':
         if (this.image !== this.sprites.jump.image) {
@@ -222,6 +220,7 @@ class Fighter extends Sprite{
           this.image = this.sprites.takeHit.image
           this.framesMax = this.sprites.takeHit.framesMax
           this.framesCurrent = 0
+          sfx.takeHit.play()
         }
         break
 
@@ -230,6 +229,7 @@ class Fighter extends Sprite{
           this.image = this.sprites.death.image
           this.framesMax = this.sprites.death.framesMax
           this.framesCurrent = 0
+          sfx.death1.play()
         }
         break
     }
