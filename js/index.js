@@ -283,7 +283,7 @@ function animate(){
     //end game if health becomes 0
     if(enemy.health <= 0 || player.health <= 0){
         determineWinner({player, enemy, timerId})
-        setTimeout(function(){ window.location="indexx.html"; },5000);
+        setTimeout(function(){ window.location="index.html"; },5000);
     }
 
 //     if(document.querySelector('#displayText').innerHTML === 'Player 2 Wins'
