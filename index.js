@@ -11,7 +11,7 @@ var sfx = {
     src : ['./sfx/sword2.wav']
   }),
   death1: new Howl({
-    src : ['./sfx/death1.wav']
+    src : ['./sfx/death1.wav'],
   }),
   jump: new Howl({
     src : ['./sfx/jump.wav']
@@ -25,13 +25,14 @@ var sfx = {
   run: new Howl({
     src : ['./sfx/run.mp3']
   }),
-  run2: new Howl({
-    src : ['./sfx/run2.mp3']
-  }),
-  /*win2: new Howl({
+  win2: new Howl({
     src : ['./sfx/win2.mp3'],
     loop : false
-  }),*/
+  }),
+  music: new Howl({
+    src : ['./sfx/music.mp3'],
+    autoplay : true
+  }),
 }
 
 const canvas = document.querySelector('canvas');
@@ -282,13 +283,16 @@ function animate(){
     //end game if health becomes 0
     if(enemy.health <= 0 || player.health <= 0){
         determineWinner({player, enemy, timerId})
+        setTimeout(function(){ window.location="indexx.html"; },5000);
     }
 
-    /*if(document.querySelector('#displayText').innerHTML === 'Player 2 Wins'
-){window.cancelAnimationFrame(id);
-  sfx.win2.play()
-}*/
+//     if(document.querySelector('#displayText').innerHTML === 'Player 2 Wins'
+// ){window.cancelAnimationFrame(id);
+//   sfx.win2.play()
+//   setTimeout(function(){ window.location="indexx.html"; },5000);
+// }
 }
+
 animate();
 
 
@@ -298,12 +302,16 @@ window.addEventListener('keydown', (event) => {
         return
       switch (event.key) {
         case 'd':
-          sfx.run2.play()
+          if(!sfx.run.playing()){
+            sfx.run.play()
+          }
           keys.d.pressed = true
           player.lastKey = 'd'
           break
         case 'a':
-          sfx.run2.play()
+          if(!sfx.run.playing()){
+            sfx.run.play()
+          }
           keys.a.pressed = true
           player.lastKey = 'a'
           break
@@ -323,12 +331,16 @@ window.addEventListener('keydown', (event) => {
         return
       switch (event.key) {
         case 'ArrowRight':
-          sfx.run.play()
+          if(!sfx.run.playing()){
+            sfx.run.play()
+          }
           keys.ArrowRight.pressed = true
           enemy.lastKey = 'ArrowRight'
           break
         case 'ArrowLeft':
-          sfx.run.play()
+          if(!sfx.run.playing()){
+            sfx.run.play()
+          }
           keys.ArrowLeft.pressed = true
           enemy.lastKey = 'ArrowLeft'
           break
